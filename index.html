@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- ============================================================
+     LINK DO CHECKOUT — troque SÓ AQUI.
+     Todos os botões da página usam este endereço.
+     Ex.: https://pay.kiwify.com.br/XXXXXXX
+     ============================================================ -->
+<script>
+  window.LINK_CHECKOUT = "[LINK_CHECKOUT]";
+</script>
+
+<title>Máquina de Vídeos Virais com IA • R$ 27,90</title>
+<meta name="description" content="Aprenda a criar séries animadas para Reels e TikTok, do personagem ao vídeo pronto, usando o Claude e um gerador de voz. Ebook com prompts prontos por R$ 27,90.">
+<meta name="theme-color" content="#3B1FA8">
+
+<!-- Compartilhamento (WhatsApp, Instagram, Facebook).
+     Troque [SEU_DOMINIO] pelo endereço do site depois de publicar. -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Máquina de Vídeos Virais com IA">
+<meta property="og:description" content="Crie séries animadas que o público acompanha episódio por episódio, feitas no Claude. Ebook com prompts prontos por R$ 27,90.">
+<meta property="og:image" content="https://[SEU_DOMINIO]/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://[SEU_DOMINIO]/">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800;900&display=swap" rel="stylesheet">
+
+<!-- ============================================================
+     PIXEL DA META — cole aqui o código do seu Pixel.
+     (Gerenciador de Eventos > Fontes de dados > seu Pixel > Instalar manualmente)
+     Depois, apague a linha de abertura e a de fechamento deste comentário.
+     O evento InitiateCheckout já é disparado nos botões (veja o script no fim da página).
+
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '[SEU_PIXEL_ID]');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" alt=""
+src="https://www.facebook.com/tr?id=[SEU_PIXEL_ID]&ev=PageView&noscript=1"></noscript>
+     ============================================================ -->
+
+<style>
+:root{
+  --roxo:#3B1FA8; --roxo-2:#4A2CC4; --roxo-esc:#26127A;
+  --amarelo:#FFD43B; --verde:#7CE0A3; --verde-esc:#1F9D5B;
+  --vermelho:#E5383B; --azul:#2F5FE0;
+  --tinta:#141018; --creme:#FFF8EC; --branco:#fff;
+  --borda:3px solid var(--tinta);
+  --sombra:5px 5px 0 var(--tinta);
+  --sombra-g:8px 8px 0 var(--tinta);
+  --raio:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-weight:500;color:var(--tinta);background:var(--roxo);line-height:1.5;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3{line-height:1.12;margin:0 0 .5em;font-weight:900;letter-spacing:-.01em}
+p{margin:0 0 1em}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 18px}
+section{padding:56px 0;position:relative}
+
+/* ---------- títulos com contorno, como nos vídeos ---------- */
+.contorno{color:var(--branco);text-shadow:
+  3px 0 0 var(--tinta),-3px 0 0 var(--tinta),0 3px 0 var(--tinta),0 -3px 0 var(--tinta),
+  2px 2px 0 var(--tinta),-2px -2px 0 var(--tinta),2px -2px 0 var(--tinta),-2px 2px 0 var(--tinta),
+  5px 6px 0 var(--tinta)}
+.amarelo{color:var(--amarelo)}
+.verde{color:var(--verde)}
+.titulo{font-size:clamp(1.75rem,6.4vw,2.9rem);text-transform:uppercase;text-align:center}
+.sub{text-align:center;max-width:640px;margin:0 auto 32px;font-size:1.05rem}
+.etiqueta{display:inline-block;background:var(--amarelo);border:var(--borda);box-shadow:3px 3px 0 var(--tinta);border-radius:999px;padding:4px 14px;font-weight:800;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;transform:rotate(-2deg)}
+.centro{text-align:center}
+
+/* ---------- botão ---------- */
+.botao{display:inline-flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;
+  background:var(--verde);color:var(--tinta);font-weight:900;font-size:clamp(1.05rem,4.4vw,1.3rem);
+  text-transform:uppercase;letter-spacing:.01em;padding:18px 26px;border:var(--borda);border-radius:16px;
+  box-shadow:var(--sombra-g);transition:transform .12s,box-shadow .12s;width:100%;max-width:460px;text-align:center}
+.botao:hover{transform:translate(-2px,-2px);box-shadow:10px 10px 0 var(--tinta)}
+.botao:active{transform:translate(5px,5px);box-shadow:3px 3px 0 var(--tinta)}
+.botao:focus-visible{outline:4px solid var(--amarelo);outline-offset:4px}
+.botao .seta{font-size:1.3em;line-height:1}
+.miudo{font-size:.85rem;opacity:.9;margin-top:12px}
+
+/* ---------- barra de oferta ---------- */
+.barra{background:var(--amarelo);border-bottom:var(--borda);text-align:center;font-weight:800;font-size:.85rem;padding:9px 14px;position:sticky;top:0;z-index:20}
+.barra a{text-decoration:none}
+.barra b{background:var(--tinta);color:var(--amarelo);border-radius:8px;padding:1px 8px;margin:0 2px;white-space:nowrap}
+
+/* ---------- hero ---------- */
+.hero{background:repeating-radial-gradient(circle at 50% 30%,var(--roxo-2) 0 46px,var(--roxo) 46px 92px);color:var(--branco);padding:36px 0 64px;overflow:hidden}
+.hero-grade{display:grid;gap:28px;align-items:center}
+.hero h1{font-size:clamp(2rem,8.6vw,3.6rem);text-transform:uppercase;margin:16px 0 14px}
+.hero .lead{font-size:clamp(1.02rem,3.9vw,1.2rem);max-width:560px}
+.hero .lead strong{color:var(--amarelo)}
+.selos{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 24px;padding:0;list-style:none}
+.selos li{background:var(--roxo-esc);border:2px solid var(--tinta);border-radius:999px;padding:5px 12px;font-size:.82rem;font-weight:700}
+.selos li::before{content:"✓ ";color:var(--verde);font-weight:900}
+.vitrine{position:relative;height:440px;max-width:400px;margin:0 auto;width:100%}
+.celular{position:absolute;left:50%;top:0;transform:translateX(-50%) rotate(2deg);width:232px;border:var(--borda);border-radius:30px;padding:9px;background:var(--tinta);box-shadow:var(--sombra-g);z-index:2}
+.celular img{border-radius:22px;width:100%;height:auto;aspect-ratio:9/16;object-fit:cover}
+.quadro-solto{position:absolute;width:132px;border:var(--borda);border-radius:16px;overflow:hidden;box-shadow:var(--sombra);background:var(--tinta)}
+.quadro-solto img{aspect-ratio:9/16;object-fit:cover;width:100%;height:auto}
+.quadro-solto.e{left:0;top:70px;transform:rotate(-8deg)}
+.quadro-solto.d{right:0;top:150px;transform:rotate(7deg);z-index:3}
+.balao{position:absolute;z-index:4;background:var(--branco);color:var(--tinta);border:var(--borda);border-radius:14px;padding:6px 12px;font-weight:900;font-size:.9rem;box-shadow:3px 3px 0 var(--tinta);white-space:nowrap}
+.balao.b1{left:4px;bottom:24px;transform:rotate(-4deg)}
+.balao.b2{right:6px;top:22px;transform:rotate(5deg);background:var(--amarelo)}
+
+/* ---------- você já viu ---------- */
+.creme{background:var(--creme)}
+.creme .titulo{color:var(--roxo)}
+.quadros{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:860px;margin:0 auto}
+.quadro{margin:0;background:var(--branco);border:var(--borda);border-radius:var(--raio);box-shadow:var(--sombra);overflow:hidden}
+.quadro img{width:100%;height:auto;aspect-ratio:9/16;object-fit:cover;border-bottom:var(--borda)}
+.quadro figcaption{padding:10px 12px 12px;font-size:.86rem;line-height:1.35}
+.quadro figcaption b{display:block;font-weight:900;text-transform:uppercase;font-size:.8rem;color:var(--roxo);letter-spacing:.04em}
+.nota{max-width:640px;margin:28px auto 0;text-align:center;font-weight:700}
+
+/* ---------- por que prende ---------- */
+.verde-bg{background:repeating-radial-gradient(circle at 50% 0,#2FB673 0 50px,#27A866 50px 100px);color:var(--branco)}
+.cards{display:grid;gap:18px}
+.card{background:var(--branco);color:var(--tinta);border:var(--borda);border-radius:var(--raio);box-shadow:var(--sombra);padding:22px 20px 20px;position:relative}
+.card h3{font-size:1.25rem;text-transform:uppercase;margin-bottom:.35em}
+.card p{margin:0;font-size:.97rem}
+.card .num{position:absolute;top:-16px;left:16px;width:38px;height:38px;border-radius:50%;border:var(--borda);background:var(--amarelo);display:grid;place-items:center;font-weight:900}
+.card .exemplo{display:inline-block;margin-top:10px;background:var(--creme);border:2px dashed var(--tinta);border-radius:10px;padding:4px 10px;font-size:.85rem;font-weight:700}
+
+/* ---------- o que recebe ---------- */
+.roxo-bg{background:var(--roxo);color:var(--branco)}
+.produtos{display:grid;gap:22px}
+.produto{background:var(--branco);color:var(--tinta);border:var(--borda);border-radius:22px;box-shadow:var(--sombra-g);padding:24px 20px;position:relative;overflow:hidden}
+.produto h3{font-size:1.4rem;text-transform:uppercase}
+.produto .tipo{font-weight:900;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;background:var(--roxo);color:var(--branco);border-radius:8px;padding:3px 9px;display:inline-block;margin-bottom:10px}
+.lista{list-style:none;padding:0;margin:0}
+.lista li{padding:7px 0 7px 34px;position:relative;border-bottom:2px dotted #d9d2c3;font-size:.96rem}
+.lista li:last-child{border-bottom:0}
+.lista li::before{content:"✓";position:absolute;left:0;top:7px;width:24px;height:24px;border-radius:50%;background:var(--verde);border:2px solid var(--tinta);display:grid;place-items:center;font-weight:900;font-size:.8rem}
+.produto .personagem{display:block;width:110px;height:auto;margin:14px -8px -26px auto;pointer-events:none}
+
+/* ---------- passo a passo ---------- */
+.passos{list-style:none;padding:0;margin:0 auto;max-width:760px;display:grid;gap:18px;counter-reset:passo}
+.passo{display:grid;grid-template-columns:64px 1fr;gap:14px;align-items:start;background:var(--branco);border:var(--borda);border-radius:var(--raio);box-shadow:var(--sombra);padding:18px}
+.passo .n{width:64px;height:64px;border-radius:16px;border:var(--borda);background:var(--roxo);color:var(--amarelo);display:grid;place-items:center;font-size:1.9rem;font-weight:900;box-shadow:3px 3px 0 var(--tinta)}
+.passo h3{font-size:1.12rem;text-transform:uppercase;margin-bottom:.25em}
+.passo p{margin:0;font-size:.95rem}
+.passo .ferr{display:inline-block;margin-top:8px;font-size:.78rem;font-weight:800;background:var(--amarelo);border:2px solid var(--tinta);border-radius:999px;padding:2px 10px}
+
+/* ---------- para quem ---------- */
+.duas{display:grid;gap:20px;max-width:900px;margin:0 auto}
+.caixa{border:var(--borda);border-radius:var(--raio);box-shadow:var(--sombra);padding:22px 20px;background:var(--branco);color:var(--tinta)}
+.caixa h3{text-transform:uppercase;font-size:1.15rem}
+.caixa.sim h3{color:var(--verde-esc)}
+.caixa.nao h3{color:var(--vermelho)}
+.caixa.nao .lista li::before{content:"✕";background:#ffd6d6}
+
+/* ---------- oferta ---------- */
+.oferta-bg{background:repeating-radial-gradient(circle at 50% 50%,var(--roxo-2) 0 46px,var(--roxo) 46px 92px);color:var(--branco)}
+.oferta{max-width:520px;margin:0 auto;background:var(--branco);color:var(--tinta);border:4px solid var(--tinta);border-radius:26px;box-shadow:10px 10px 0 var(--tinta);overflow:hidden;position:relative}
+.oferta-topo{background:var(--amarelo);border-bottom:var(--borda);padding:16px 20px;text-align:center}
+.oferta-topo h2{font-size:1.35rem;text-transform:uppercase;margin:0}
+.oferta-corpo{padding:22px 20px 26px}
+.preco{text-align:center;margin:18px 0 6px}
+.preco .de{font-size:.95rem;font-weight:700}
+.preco .valor{display:inline-block;font-size:clamp(3rem,15vw,4.2rem);font-weight:900;line-height:1;color:var(--roxo);letter-spacing:-.02em}
+.preco .valor small{font-size:.42em;vertical-align:.95em;margin-right:4px}
+.preco .forma{font-weight:700;font-size:.92rem;margin-top:6px}
+.oferta .botao{width:100%;max-width:none;margin-top:14px}
+.pagamentos{display:flex;justify-content:center;flex-wrap:wrap;gap:6px;margin-top:14px}
+.pagamentos span{font-size:.75rem;font-weight:800;border:2px solid var(--tinta);border-radius:8px;padding:2px 8px;background:var(--creme)}
+.oferta .personagem{position:absolute;width:92px;right:8px;top:6px;transform:rotate(6deg)}
+
+/* ---------- garantia ---------- */
+.garantia{display:grid;gap:18px;align-items:center;max-width:820px;margin:0 auto;background:var(--branco);border:var(--borda);border-radius:24px;box-shadow:var(--sombra-g);padding:24px 20px}
+.selo-g{width:150px;height:150px;margin:0 auto;border-radius:50%;background:var(--amarelo);border:4px solid var(--tinta);box-shadow:var(--sombra);display:grid;place-items:center;text-align:center;font-weight:900;line-height:1;transform:rotate(-6deg)}
+.selo-g span{display:block;font-size:3.3rem}
+.selo-g small{display:block;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.garantia h2{font-size:1.5rem;text-transform:uppercase;color:var(--roxo)}
+
+/* ---------- FAQ ---------- */
+.faq{max-width:760px;margin:0 auto;display:grid;gap:12px}
+.faq details{background:var(--branco);color:var(--tinta);border:var(--borda);border-radius:14px;box-shadow:4px 4px 0 var(--tinta)}
+.faq summary{list-style:none;cursor:pointer;padding:16px 50px 16px 18px;font-weight:800;position:relative;font-size:1rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:14px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:8px;border:2px solid var(--tinta);background:var(--amarelo);display:grid;place-items:center;font-weight:900;line-height:1}
+.faq details[open] summary::after{content:"–"}
+.faq details[open] summary{border-bottom:2px dashed var(--tinta)}
+.faq .resp{padding:14px 18px 16px;font-size:.95rem}
+.faq .resp p:last-child{margin:0}
+.faq summary:focus-visible{outline:4px solid var(--amarelo);outline-offset:2px;border-radius:12px}
+
+/* ---------- CTA final + rodapé ---------- */
+.final{background:var(--amarelo);border-top:var(--borda);border-bottom:var(--borda);text-align:center}
+.final h2{font-size:clamp(1.6rem,6vw,2.4rem);text-transform:uppercase}
+.final .gente{display:flex;justify-content:center;align-items:flex-end;gap:4px;margin:0 auto 18px;max-width:360px}
+.final .gente img{height:150px;width:auto}
+.final .gente img.peq{height:120px}
+footer{background:var(--tinta);color:#d8d3e8;font-size:.85rem;padding:36px 0 110px}
+footer p{max-width:760px}
+footer .aviso{background:#241d33;border:2px solid #4b3f66;border-radius:12px;padding:12px 14px;color:var(--branco);font-weight:700}
+footer nav{display:flex;flex-wrap:wrap;gap:16px;margin:16px 0}
+footer nav a{color:var(--amarelo);font-weight:700}
+
+/* ---------- botão fixo no celular ---------- */
+.fixo{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(transparent,rgba(20,16,24,.55) 40%);transform:translateY(120%);transition:transform .25s}
+.fixo.mostrar{transform:none}
+.fixo .botao{max-width:none;padding:14px 18px;font-size:1.02rem;box-shadow:4px 4px 0 var(--tinta)}
+
+/* ---------- telas maiores ---------- */
+@media (min-width:620px){
+  .quadros{grid-template-columns:repeat(4,1fr)}
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .duas{grid-template-columns:1fr 1fr}
+}
+@media (min-width:900px){
+  section{padding:84px 0}
+  .hero{padding:56px 0 84px}
+  .hero-grade{grid-template-columns:1.1fr .9fr;gap:40px}
+  .vitrine{height:520px;max-width:440px}
+  .celular{width:270px}
+  .quadro-solto{width:150px}
+  .produtos{grid-template-columns:1fr 1fr}
+  .cards{grid-template-columns:repeat(4,1fr)}
+  .garantia{grid-template-columns:180px 1fr;padding:30px}
+  .fixo{display:none}
+  footer{padding-bottom:40px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<!-- BARRA DE OFERTA -->
+<div class="barra"><a href="#oferta" data-checkout>🎬 Ebook + prompts prontos por <b>R$ 27,90</b> • pagamento único • acesso imediato</a></div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap hero-grade">
+    <div>
+      <span class="etiqueta">Máquina de Vídeos Virais com IA</span>
+      <h1 class="contorno">Crie séries animadas que o público <span class="amarelo">acompanha até o fim</span></h1>
+      <p class="lead">O passo a passo completo por trás da série <strong>“Nando do Zero”</strong>: personagens, roteiro, narração com emoção e o vídeo pronto, tudo feito no <strong>Claude</strong>. Sem editor de vídeo e sem saber programar: o Claude escreve o código por você.</p>
+      <ul class="selos">
+        <li>Ebook com prompts prontos</li>
+        <li>Versão editável em Word</li>
+        <li>Roteiro do episódio 1 completo</li>
+      </ul>
+      <a class="botao" href="#oferta" data-checkout>Quero a máquina <span class="seta">→</span></a>
+      <p class="miudo">R$ 27,90 • garantia de 7 dias • acesso por e-mail</p>
+    </div>
+    <div class="vitrine" aria-label="Capa e quadros de um episódio da série Nando do Zero">
+      <figure class="quadro-solto e"><img src="img/quadro-gancho.webp" width="360" height="640" alt="Quadro do vídeo: celular do Nando com saldo de R$ 0,00"></figure>
+      <div class="celular"><img src="img/capa-ep1.webp" width="540" height="960" alt="Capa do episódio 1: Nando segurando um aviso de despejo de 7 dias, com A ou B embaixo" fetchpriority="high"></div>
+      <figure class="quadro-solto d"><img src="img/quadro-decisao.webp" width="360" height="640" alt="Quadro do vídeo: Comenta A ou B"></figure>
+      <span class="balao b1">Comenta A ou B 👇</span>
+      <span class="balao b2">EP. 1</span>
+    </div>
+  </div>
+</header>
+
+<!-- VOCÊ JÁ VIU VÍDEOS ASSIM -->
+<section class="creme" id="exemplo">
+  <div class="wrap">
+    <h2 class="titulo">Você já viu vídeos assim</h2>
+    <p class="sub">Quadros reais do episódio 1 de “Nando do Zero”, feito do começo ao fim com o método que você vai aprender.</p>
+    <div class="quadros">
+      <figure class="quadro"><img src="img/quadro-gancho.webp" width="360" height="640" loading="lazy" alt="Nando assustado com o celular mostrando R$ 0,00"><figcaption><b>Gancho</b>“Zero reais na conta” nos primeiros segundos.</figcaption></figure>
+      <figure class="quadro"><img src="img/quadro-despejo.webp" width="360" height="640" loading="lazy" alt="Porta com aviso de despejo de 7 dias e a Duda chorando"><figcaption><b>Problema com prazo</b>Despejo em 7 dias. Todo mundo quer saber o final.</figcaption></figure>
+      <figure class="quadro"><img src="img/quadro-placar.webp" width="360" height="640" loading="lazy" alt="Placar: seguidor vale R$ 1,00 e curtida vale R$ 0,50"><figcaption><b>Placar</b>Seguidor = R$ 1, curtida = R$ 0,50. Quem assiste vira investidor.</figcaption></figure>
+      <figure class="quadro"><img src="img/quadro-ab.webp" width="360" height="640" loading="lazy" alt="Primeira decisão: A, vender bala no farol, ou B, água e geladinho"><figcaption><b>Decisão A/B</b>O público escolhe o próximo episódio nos comentários.</figcaption></figure>
+    </div>
+    <p class="nota">Cada peça foi pensada para prender: o gancho segura, o placar dá um motivo para seguir e a decisão traz o público de volta no próximo episódio.</p>
+  </div>
+</section>
+
+<!-- POR QUE O FORMATO PRENDE -->
+<section class="verde-bg">
+  <div class="wrap">
+    <h2 class="titulo contorno">Por que esse formato prende</h2>
+    <p class="sub">Não é sorte. São quatro peças que se repetem em todo episódio, e você vai montar cada uma.</p>
+    <div class="cards">
+      <article class="card"><span class="num">1</span><h3>Gancho</h3><p>Um número ruim ou uma cena-choque logo no início. Quem para de rolar o feed quer entender o que aconteceu.</p><span class="exemplo">“R$ 0,00 na conta”</span></article>
+      <article class="card"><span class="num">2</span><h3>Placar</h3><p>Saldo, dívida e dias restantes sempre na tela. Dá para acompanhar a história só olhando os números.</p><span class="exemplo">“Faltam 7 dias”</span></article>
+      <article class="card"><span class="num">3</span><h3>Público decide</h3><p>Duas opções no final, A ou B. Comentar vira parte da história, e os comentários puxam o alcance.</p><span class="exemplo">“Comenta A ou B”</span></article>
+      <article class="card"><span class="num">4</span><h3>Série</h3><p>Cada vídeo termina com uma pergunta em aberto. Para saber o resultado, a pessoa precisa seguir a conta.</p><span class="exemplo">“Episódio 2 amanhã”</span></article>
+    </div>
+  </div>
+</section>
+
+<!-- O QUE VOCÊ RECEBE -->
+<section class="roxo-bg">
+  <div class="wrap">
+    <h2 class="titulo contorno">O que você recebe</h2>
+    <p class="sub">Um ebook completo para ler no seu ritmo e um kit de prompts e modelos para copiar e usar no mesmo dia.</p>
+    <div class="produtos">
+      <article class="produto tem-personagem">
+        <span class="tipo">Ebook • 36 páginas • PDF</span>
+        <h3>Máquina de Vídeos Virais com IA</h3>
+        <ul class="lista">
+          <li>Por que séries animadas viralizam: gancho, placar, A/B e continuidade</li>
+          <li>Como criar a ficha do personagem (frente, perfil, costas, expressões) com prompts prontos</li>
+          <li>A estrutura do roteiro em 7 blocos, com o roteiro do episódio 1 inteiro</li>
+          <li>Narração com tags de emoção para o ElevenLabs, com exemplo completo</li>
+          <li>Os prompts exatos para montar o vídeo no Claude, etapa por etapa</li>
+          <li>Como transformar tudo numa skill e gerar episódios com um pedido só</li>
+          <li>Capa, foto de perfil, bio e legenda com modelos prontos</li>
+          <li>Bônus: 10 ideias de séries para outros nichos</li>
+        </ul>
+        <img class="personagem" src="img/cida_joinha.webp" alt="" loading="lazy" width="200" height="252">
+      </article>
+      <article class="produto tem-personagem">
+        <span class="tipo">Kit • pronto para copiar</span>
+        <h3>Prompts e modelos de produção</h3>
+        <ul class="lista">
+          <li>13 prompts prontos, na ordem de uso, do personagem ao vídeo final</li>
+          <li>Modelo de SKILL.md para gerar cada episódio com um pedido só</li>
+          <li>Narração completa do episódio 1 no formato do ElevenLabs</li>
+          <li>Modelos de bio, nome de conta e legenda do post</li>
+          <li>Planilha de continuidade e checklist de cada etapa</li>
+          <li>Versão editável em Word (.docx) para virar o seu caderno de produção</li>
+        </ul>
+        <img class="personagem" src="img/nando_oculos.webp" alt="" loading="lazy" width="200" height="243">
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PASSO A PASSO -->
+<section class="creme">
+  <div class="wrap">
+    <h2 class="titulo">O passo a passo em 4 etapas</h2>
+    <p class="sub">É o mesmo caminho usado em cada episódio de “Nando do Zero”.</p>
+    <ol class="passos">
+      <li class="passo"><span class="n">1</span><div><h3>Crie seus personagens</h3><p>Você gera uma ficha de poses para cada personagem: frente, perfil, costas, expressões e paleta de cores. A ficha mantém o personagem igual em todos os episódios.</p><span class="ferr">Claude + gerador de imagem</span></div></li>
+      <li class="passo"><span class="n">2</span><div><h3>Escreva o roteiro e a narração</h3><p>O Claude escreve o episódio nos 7 blocos e entrega a narração com tags de emoção. Você cola no gerador de voz e baixa o áudio.</p><span class="ferr">Claude + ElevenLabs</span></div></li>
+      <li class="passo"><span class="n">3</span><div><h3>Monte o vídeo em código</h3><p>Você envia as fichas e o áudio. O Claude recorta os personagens, sincroniza a legenda com a voz e renderiza o vídeo vertical, com placar e cenas.</p><span class="ferr">Claude (Python + ffmpeg)</span></div></li>
+      <li class="passo"><span class="n">4</span><div><h3>Publique e continue a série</h3><p>Capa, legenda e hashtags prontas. No próximo episódio, você leva a escolha vencedora, o placar e os dias restantes.</p><span class="ferr">Instagram • TikTok • Shorts</span></div></li>
+    </ol>
+    <p class="centro" style="margin-top:34px"><a class="botao" href="#oferta" data-checkout>Quero aprender agora <span class="seta">→</span></a></p>
+  </div>
+</section>
+
+<!-- PARA QUEM É -->
+<section class="verde-bg">
+  <div class="wrap">
+    <h2 class="titulo contorno">Para quem é</h2>
+    <div class="duas">
+      <div class="caixa sim">
+        <h3>É para você se…</h3>
+        <ul class="lista">
+          <li>Quer criar uma página de conteúdo sem aparecer</li>
+          <li>Gosta de contar histórias, mas não sabe animar nem editar</li>
+          <li>Já usa (ou quer usar) o Claude e quer um método pronto</li>
+          <li>Quer um formato de série para postar com frequência</li>
+          <li>Tem um nicho e quer adaptar a ideia para ele</li>
+        </ul>
+      </div>
+      <div class="caixa nao">
+        <h3>Não é para você se…</h3>
+        <ul class="lista">
+          <li>Procura dinheiro rápido sem colocar a mão na massa</li>
+          <li>Quer um botão mágico que posta sozinho</li>
+          <li>Não quer usar ferramentas de IA</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OFERTA -->
+<section class="oferta-bg" id="oferta">
+  <div class="wrap">
+    <h2 class="titulo contorno">Leve tudo hoje</h2>
+    <div class="oferta">
+      <div class="oferta-topo"><h2>Máquina de Vídeos Virais com IA</h2></div>
+      <div class="oferta-corpo">
+        <ul class="lista">
+          <li><b>Ebook completo</b> em PDF + versão editável (.docx)</li>
+          <li><b>13 prompts prontos</b> na ordem de uso</li>
+          <li><b>Modelo de skill</b> para gerar episódios com um pedido só</li>
+          <li><b>Roteiro do episódio 1</b> e narração completos</li>
+          <li><b>Modelos</b> de capa, bio e legenda</li>
+          <li><b>Bônus:</b> 10 ideias de séries para outros nichos</li>
+        </ul>
+        <div class="preco">
+          <div class="de">Tudo isso por</div>
+          <div class="valor"><small>R$</small>27,90</div>
+          <div class="forma">pagamento único • sem mensalidade</div>
+        </div>
+        <a class="botao" href="#oferta" data-checkout>Quero a máquina agora <span class="seta">→</span></a>
+        <div class="pagamentos" aria-label="Formas de pagamento"><span>Pix</span><span>Cartão</span><span>Boleto</span></div>
+        <p class="miudo centro">Acesso enviado para o seu e-mail após a confirmação do pagamento.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GARANTIA -->
+<section class="creme">
+  <div class="wrap">
+    <div class="garantia">
+      <div class="selo-g" aria-hidden="true"><div><span>7</span><small>dias de<br>garantia</small></div></div>
+      <div>
+        <h2>Garantia incondicional de 7 dias</h2>
+        <p>Entre, leia o ebook e teste o método. Se em até 7 dias você achar que não é para você, é só pedir o reembolso pela plataforma de pagamento ou pelo e-mail [EMAIL_SUPORTE]. Você recebe 100% do valor de volta, sem perguntas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="roxo-bg">
+  <div class="wrap">
+    <h2 class="titulo contorno">Perguntas frequentes</h2>
+    <div class="faq">
+      <details><summary>Preciso saber programar?</summary><div class="resp"><p>Não. O vídeo é montado em código, mas quem escreve e roda o código é o Claude. Você conversa com ele em português, usando os prompts do ebook, e recebe o vídeo pronto.</p></div></details>
+      <details><summary>Quais ferramentas eu preciso?</summary><div class="resp"><p>O Claude (para personagens, roteiro e vídeo) e um gerador de voz, como o ElevenLabs. Alguns recursos dessas ferramentas podem exigir plano pago, e o ebook mostra o que cada etapa usa para você decidir.</p></div></details>
+      <details><summary>Funciona no celular?</summary><div class="resp"><p>Você consegue ler o ebook no celular. Para montar os vídeos, recomendamos um computador: é onde o Claude roda o código e onde fica mais fácil enviar e baixar arquivos.</p></div></details>
+      <details><summary>Posso criar meus próprios personagens e histórias?</summary><div class="resp"><p>Sim, e essa é a ideia. “Nando do Zero” é o exemplo completo. O ebook ensina a montar a ficha de qualquer personagem e traz 10 ideias de séries para outros nichos.</p></div></details>
+      <details><summary>Vou viralizar com certeza?</summary><div class="resp"><p>Ninguém pode garantir isso. O método ensina a produzir episódios com as peças que costumam prender a atenção, mas os resultados dependem da sua dedicação, da constância e do seu nicho. Não há garantia de visualizações ou ganhos.</p></div></details>
+      <details><summary>Como recebo o acesso?</summary><div class="resp"><p>Logo após a confirmação do pagamento, você recebe um e-mail com o acesso ao ebook (PDF e Word). No Pix e no cartão, a confirmação costuma ser imediata. No boleto, pode levar até 3 dias úteis.</p></div></details>
+      <details><summary>E se eu não gostar?</summary><div class="resp"><p>Você tem 7 dias de garantia. Peça o reembolso pela plataforma de pagamento ou pelo e-mail [EMAIL_SUPORTE] e recebe o valor de volta.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="final">
+  <div class="wrap">
+    <div class="gente" aria-hidden="true">
+      <img src="img/cida_frente.webp" alt="" loading="lazy" width="205" height="420">
+      <img src="img/nando_frente.webp" alt="" loading="lazy" width="195" height="420">
+      <img class="peq" src="img/duda_vibrando.webp" alt="" loading="lazy" width="298" height="420">
+    </div>
+    <h2>O próximo episódio é seu</h2>
+    <p class="sub">Comece hoje a sua série animada por R$ 27,90.</p>
+    <a class="botao" href="#oferta" data-checkout>Quero a máquina <span class="seta">→</span></a>
+  </div>
+</section>
+
+<!-- RODAPÉ -->
+<footer>
+  <div class="wrap">
+    <p class="aviso">Os resultados dependem da sua dedicação. Não há garantia de visualizações ou ganhos.</p>
+    <nav>
+      <a href="[LINK_TERMOS]">Termos de uso</a>
+      <a href="[LINK_PRIVACIDADE]">Política de privacidade</a>
+      <a href="mailto:[EMAIL_SUPORTE]">Suporte: [EMAIL_SUPORTE]</a>
+    </nav>
+    <p>© <span id="ano">2026</span> [SEU_NOME] • [CNPJ_OU_CPF]. Todos os direitos reservados.</p>
+    <p>Este site não faz parte do Instagram, do TikTok, da Meta, da Anthropic (Claude) nem da ElevenLabs, e não é endossado por essas empresas. Os nomes são citados apenas para indicar as ferramentas usadas no método.</p>
+  </div>
+</footer>
+
+<!-- botão fixo (só no celular) -->
+<div class="fixo" id="fixo"><a class="botao" href="#oferta" data-checkout>Quero por R$ 27,90 <span class="seta">→</span></a></div>
+
+<script>
+(function () {
+  // Aplica o link do checkout em todos os botões, levando junto os parâmetros
+  // da URL (utm_source, utm_campaign...) para você saber de onde veio a venda.
+  var link = window.LINK_CHECKOUT || "";
+  var configurado = /^https?:\/\//.test(link);
+  if (configurado) {
+    var qs = window.location.search.replace(/^\?/, "");
+    var destino = qs ? link + (link.indexOf("?") > -1 ? "&" : "?") + qs : link;
+    document.querySelectorAll("[data-checkout]").forEach(function (a) {
+      a.href = destino;
+      a.addEventListener("click", function () {
+        if (typeof window.fbq === "function") window.fbq("track", "InitiateCheckout", { value: 27.90, currency: "BRL" });
+      });
+    });
+  }
+  // Enquanto o link não for configurado, os botões rolam até a oferta (#oferta).
+
+  // Botão fixo aparece depois do topo no celular
+  var fixo = document.getElementById("fixo");
+  var oferta = document.getElementById("oferta");
+  function atualiza() {
+    var passouTopo = window.scrollY > window.innerHeight * 0.9;
+    var r = oferta.getBoundingClientRect();
+    var naOferta = r.top < window.innerHeight && r.bottom > 0;
+    fixo.classList.toggle("mostrar", passouTopo && !naOferta);
+  }
+  window.addEventListener("scroll", atualiza, { passive: true });
+  atualiza();
+
+  document.getElementById("ano").textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
